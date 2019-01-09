@@ -1,7 +1,6 @@
 from flask import Flask, request, redirect, session, flash, send_from_directory, url_for, render_template
 import pandas as pd
 
-
 app = Flask(__name__, template_folder='.')
 app.secret_key = "senha"
 
@@ -13,28 +12,32 @@ def initial():
 
 @app.route('/dashboard.html')
 def dashboard():
-	return render_template('dashboard.html')
+	return render_template('dashboard.html', titulo="Dashboard")
 
-@app.route('/cardapio.html')
-def cardapio():
-	return render_template('cardapio.html')
+@app.route('/cardapioComidas.html')
+def cardapio1():
+	cardapioComidas = pd.read_csv("dataBase/cardapio.csv")
+	return render_template('cardapioComidas.html', cardapioCSV=cardapioComidas, titulo="")
+
+@app.route('/cardapioBebidas.html')
+def cardapio2():
+	cardapioBebidas = pd.read_csv("dataBase/cardapio.csv")
+	return render_template('cardapioBebidas.html', cardapioCSV=cardapioBebidas, titulo="")
+
+@app.route('/cardapioCachacas.html')
+def cardapio3():
+	cardapioCachacas = pd.read_csv("dataBase/cardapio.csv")
+	return render_template('cardapioCachacas.html', cardapioCSV=cardapioCachacas, titulo="")
+
+@app.route('/pedidos.html')
+def pedidos():
+	pedidosCSV = pd.read_csv("dataBase/cardapio.csv")
+	return render_template('pedidos.html', CSV=pedidosCSV, titulo="Pedidos")
 
 @app.route('/mesas.html')
 def mesas():
-	return render_template('mesas.html')
+	return render_template('mesas.html', titulo="Mesas")
 
-
-@app.route('/notifications.html')
-def notifications():
-	return render_template('notifications.html')
-
-@app.route('/typography.html')
-def typography():
-	return render_template('typography.html')
-
-@app.route('/users.html')
-def users():
-	return render_template('users.html')
 
 
 #Faz todos os htmls funcionarem
@@ -64,3 +67,4 @@ def autenticar():
 	else:
 		flash("Usuário ou senha não existem")
 		return redirect("/")
+

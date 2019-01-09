@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Bebidas</h4>
+                                <p class="category">Cardápio de bebidas</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>ID</th>
+                                    	<th>Bebida</th>
+                                    	<th>Preço</th>
+                                    	<th>Em estoque</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for index, row in cardapioCSV.iterrows() %}
+                                        <tr>
+                                            <td>{{ index }}</td>
+                                            <td>{{ row["PRATOS"] }}</td>
+                                            <td>{{ row["PREÇO"] }}</td>
+                                            <td>1</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+
+<!--
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul>
+
+                        <li>
+                            <a href="http://www.creative-tim.com">
+                                Creative Tim
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://blog.creative-tim.com">
+                               Blog
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.creative-tim.com/license">
+                                Licenses
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+				<div class="copyright pull-right">
+                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+                </div>
+            </div>
+        </footer>
+-->
+
+{% endblock %}

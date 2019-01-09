@@ -51,25 +51,42 @@
 			</div>
 
 			<ul class="nav">
-				<li class="active">
+				<li {% if request.path == "/dashboard.html" %} class="active" {%endif%}>
 					<a href="dashboard.html">
 						<i class="ti-panel"></i>
 						<p>Dashboard</p>
 					</a>
 				</li>
-				<li>
+				<li {% if request.path == "/pedidos.html" %} class="active" {%endif%}>
+					<a href="pedidos.html">
+						<i class="ti-pencil-alt"></i>
+						<p>Pedidos</p>
+					</a>
+				</li>
+				<li {% if request.path == "/mesas.html" %} class="active" {%endif%}>
 					<a href="mesas.html">
 						<i class="ti-view-list-alt"></i>
 						<p>Mesas</p>
 					</a>
 				</li>
-				<li>
-					<a href="cardapio.html">
-						<i class="ti-text"></i>
-						<p>Cardápio</p>
+				<li {% if request.path == "/cardapioComidas.html" %} class="active" {%endif%}>
+					<a href="cardapioComidas.html">
+						<i class="ti-book"></i>
+						<p>Cardápio comidas</p>
 					</a>
 				</li>
-
+				<li {% if request.path == "/cardapioBebidas.html" %} class="active" {%endif%}>
+					<a href="cardapioBebidas.html">
+						<i class="ti-book"></i>
+						<p>Cardápio bebidas</p>
+					</a>
+				</li>
+				<li {% if request.path == "/cardapioCachacas.html" %} class="active" {%endif%}>
+					<a href="cardapioCachacas.html">
+						<i class="ti-book"></i>
+						<p>Cardápio cachaças</p>
+					</a>
+				</li>
 				
 			</ul>
 		</div>
@@ -85,7 +102,7 @@
 						<span class="icon-bar bar2"></span>
 						<span class="icon-bar bar3"></span>
 					</button>
-					<a class="navbar-brand" href="#">Dashboard</a>
+					<a class="navbar-brand" href="#">{{ titulo }}</a>
 				</div>
 				<div class="collapse navbar-collapse">
 					<ul class="nav navbar-nav navbar-right">
@@ -150,22 +167,23 @@
 
 	<!-- Paper Dashboard DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
+	{% if request.path == "/dashboard.html" %}
+		<script type="text/javascript">
+			$(document).ready(function(){
 
-	<script type="text/javascript">
-		$(document).ready(function(){
+				demo.initChartist();
 
-			demo.initChartist();
+				$.notify({
+					icon: 'ti-gift',
+					message: "Bem vindo ao <b>Moendas System</b>"
 
-			$.notify({
-				icon: 'ti-gift',
-				message: "Bem vindo ao <b>Moendas System</b>"
+				},{
+					type: 'success',
+					timer: 1000
+				});
 
-			},{
-				type: 'success',
-				timer: 1000
 			});
-
-		});
-	</script>
+		</script>
+	{% endif %}
 
 </html>
