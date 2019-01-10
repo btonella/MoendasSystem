@@ -16,6 +16,7 @@
                                     <thead>
                                         <th>ID</th>
                                     	<th>Bebida</th>
+                                        <th>Tamanho</th>
                                     	<th>Preço</th>
                                     	<th>Em estoque</th>
                                     </thead>
@@ -23,9 +24,10 @@
                                         {% for index, row in cardapioCSV.iterrows() %}
                                         <tr>
                                             <td>{{ index }}</td>
-                                            <td>{{ row["PRATOS"] }}</td>
+                                            <td>{{ row["BEBIDAS"] }}</td>
+                                            <td>{{ row["TAMANHO"] }}</td>
                                             <td>{{ row["PREÇO"] }}</td>
-                                            <td>1</td>
+                                            <td>{{ row["ESTOQUE"] }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

@@ -12,32 +12,51 @@ def initial():
 
 @app.route('/dashboard.html')
 def dashboard():
-	return render_template('dashboard.html', titulo="Dashboard")
+	return render_template('dashboard.html', titulo="Dashboard", titulo_pagina="Dashboard")
 
 @app.route('/cardapioComidas.html')
 def cardapio1():
-	cardapioComidas = pd.read_csv("dataBase/cardapio.csv")
-	return render_template('cardapioComidas.html', cardapioCSV=cardapioComidas, titulo="")
+	cardapioComidas = pd.read_csv("dataBase/cardapioComidas.csv")
+	cardapioComidas.PREÇO = cardapioComidas.PREÇO.astype(float)
+	return render_template('cardapioComidas.html', cardapioCSV=cardapioComidas, titulo="", titulo_pagina="Cardapio Comidas")
 
 @app.route('/cardapioBebidas.html')
 def cardapio2():
-	cardapioBebidas = pd.read_csv("dataBase/cardapio.csv")
-	return render_template('cardapioBebidas.html', cardapioCSV=cardapioBebidas, titulo="")
+	cardapioBebidas = pd.read_csv("dataBase/cardapioBebidas.csv")
+	cardapioBebidas.PREÇO = cardapioBebidas.PREÇO.astype(float)
+	return render_template('cardapioBebidas.html', cardapioCSV=cardapioBebidas, titulo="", titulo_pagina="Cardapio Bebidas")
 
 @app.route('/cardapioCachacas.html')
 def cardapio3():
-	cardapioCachacas = pd.read_csv("dataBase/cardapio.csv")
-	return render_template('cardapioCachacas.html', cardapioCSV=cardapioCachacas, titulo="")
+	cardapioCachacas = pd.read_csv("dataBase/cardapioCachacas.csv")
+	cardapioCachacas.PREÇO = cardapioCachacas.PREÇO.astype(float)
+	return render_template('cardapioCachacas.html', cardapioCSV=cardapioCachacas, titulo="" , titulo_pagina="Cardapio Cachaças")
 
 @app.route('/pedidos.html')
 def pedidos():
-	pedidosCSV = pd.read_csv("dataBase/cardapio.csv")
-	return render_template('pedidos.html', CSV=pedidosCSV, titulo="Pedidos")
+	pedidosCSV = pd.read_csv("dataBase/pedidos.csv")
+	pedidosCSV.VALOR = pedidosCSV.VALOR.astype(float)
+	return render_template('pedidos.html', CSV=pedidosCSV, titulo="Pedidos", titulo_pagina="Pedidos")
 
 @app.route('/mesas.html')
 def mesas():
-	return render_template('mesas.html', titulo="Mesas")
+	mesasCSV = pd.read_csv("dataBase/mesas.csv")
+	mesasCSV.TOTAL = mesasCSV.TOTAL.astype(float)
+	pedidosCSV = pd.read_csv("dataBase/pedidos.csv")
+	pedidosCSV.VALOR = pedidosCSV.VALOR.astype(float)
+	pedidosCSV.MESA = pedidosCSV.MESA.astype(int)
+	#pedidosCSV = pedidosCSV.groupby("MESA").VALOR.sum().reset_index()
+	return render_template('mesas.html', CSVmesas=mesasCSV, CSVpedidos=pedidosCSV, titulo="Mesas", titulo_pagina="Mesas")
 
+
+@app.route("/save.html")
+def save():
+	import time
+
+	dia = str(time.time())
+	pedidos = pd.read_csv("dataBase/pedidos.csv")
+	pedidos.to_csv("dataBase/"+dia+".csv")
+	return render_template("save.html", titulo="", titulo_pagina="Salvar")
 
 
 #Faz todos os htmls funcionarem

@@ -24,10 +24,10 @@
                                         {% for index, row in cardapioCSV.iterrows() %}
                                         <tr>
                                             <td>{{ index }}</td>
-                                            <td>{{ row["PRATOS"] }}</td>
-                                            <td>Minas Gerais</td>
+                                            <td>{{ row["CACHACA"] }}</td>
+                                            <td>{{ row["REGIÃO"] }}</td>
                                             <td>{{ row["PREÇO"] }}</td>
-                                            <td>1</td>
+                                            <td>{{ row["ESTOQUE"] }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

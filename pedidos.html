@@ -7,37 +7,39 @@
             <div class="container-fluid">
             
                 <div class="row">
-                {% for index, row in CSV.iterrows() %}
                     <div class="col-md-12">
-                        
+                        {% for mesa in CSV["MESA"].unique() %}
                         <div class="card">
                             
                             <div class="header">
-                                <h4 class="title">Mesa {{ index }}</h4>
+                                <h4 class="title">Mesa {{ mesa }}</h4>
                             </div> 
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
+                                        <th>Comanda</th>
                                         <th>Pedido</th>
-                                    	<th>Quantidade</th>
-                                    	<th>Preço</th>
+                                        <th>Quantidade</th>
+                                        <th>Preço</th>
                                     </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <td>{{ row["PRATOS"] }}</td>
-                                            <td>{{ 3 }}</td>
-                                            <td>{{ row["PREÇO"] }}</td>
-                                            <td>1</td>
-                                        </tr>
-                                        
-                                    </tbody>
+                                    {% for index, row in CSV.iterrows() %}
+                                        {% if row["MESA"] == mesa %}
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{ row["COMANDA"] }}</td>
+                                                    <td>{{ row["PEDIDO"] }}</td>
+                                                    <td>{{ row["QUANTIDADE"] }}</td>
+                                                    <td>{{ row["VALOR"] }}</td>
+                                                </tr>
+                                            </tbody>
+                                        {% endif %}
+                                    {% endfor %}
                                 </table>
 
                             </div>
                         </div>
+                    {% endfor %}
                     </div>
-                {% endfor %}
 
 <!--
         <footer class="footer">

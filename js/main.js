@@ -73,3 +73,7 @@
     
 
 })(jQuery);
+
+function fazerCoisa(){
+    alert('aaaaaa')
+}
