@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+	<div class="content">
+		<div class="container-fluid">
+			<div class="row">
+
+				<form method="post" action="/vendanova">
+					<div class="form-group">
+						<label for="Mesa">Mesa</label>
+						<input type="text" class="form-control" id="mesa">
+					</div>
+
+					<div class="form-group">
+						<label for="Comanda">Comanda</label>
+						<input type="text" class="form-control" id="comanda">
+					</div>
+
+					<div class="form-row">
+						<label>Pedido</label>
+						<div class="col-auto my-1">
+							<label class="mr-sm-2 sr-only" for="escolha">Preference</label>
+							<select class="custom-select mr-sm-2" id="escolha">
+								<option selected>Choose...</option>
+								<option value="Bebida">Bebida</option>
+								<option value="Comida">Comida</option>
+								<option value="Cachaca">Cachaça</option>
+							</select>
+						</div><br>
+						
+						<div class="col-auto my-1" style="display: none;" id="bebidas">
+							<label>Bebidas</label>
+							<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+								<option selected>Choose...</option>
+								{% for item in bebidas["BEBIDAS"] %}
+									<option value="1">{{item}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						
+						<div class="col-auto my-1" style="display: none;" id="comidas">
+							<label for="Mesa">Comidas</label>
+							<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+								<option selected>Choose...</option>
+								{% for item in comidas["PRATOS"] %}
+									<option value="1">{{item}}</option>
+								{% endfor %}
+							</select>
+						</div>				
+
+						<div class="col-auto my-1" style="display: none;" id="cachacas">
+							<label for="Mesa">Cachaças</label>
+							<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+								<option selected>Choose...</option>
+								{% for item in cachacas["CACHACA"] %}
+									<option value="1">{{item}}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+					</div><br>
+
+					<div class="form-group">
+						<label for="Comanda">Quantidade</label>
+						<input type="text" class="form-control" id="comanda">
+					</div>
+					<div class="form-group">
+						<label for="Comanda">Valor</label>
+						R$10,00
+					</div>
+					<button type="submit" class="btn btn-primary">Criar venda</button>
+				</form>
+
+			</div>
+		</div>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			var eSelect = document.getElementById('escolha');
+			var optOtherReason1 = document.getElementById('bebidas');
+			var optOtherReason2 = document.getElementById('comidas');
+			var optOtherReason3 = document.getElementById('cachacas');
+			eSelect.onchange = function() {
+				if(eSelect.selectedIndex === 1) {
+					optOtherReason1.style.display = 'block';
+				} else {
+					optOtherReason1.style.display = 'none';
+				}
+				if(eSelect.selectedIndex === 2) {
+					optOtherReason2.style.display = 'block';
+				} else {
+					optOtherReason2.style.display = 'none';
+				}
+				if(eSelect.selectedIndex === 3) {
+					optOtherReason3.style.display = 'block';
+				} else {
+					optOtherReason3.style.display = 'none';
+				}
+			}
+		}
+	</script>
+
+	<!--
+	<footer class="footer">
+		<div class="container-fluid">
+			<nav class="pull-left">
+				<ul>
+
+					<li>
+						<a href="#">
+							Home
+						</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="copyright pull-right">
+				&copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+			</div>
+		</div>
+	</footer>
+	-->
+
+{% endblock %}

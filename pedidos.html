@@ -1,74 +1,73 @@
 {% extends "base.html" %}
 {% block conteudo %}
 
+		<div class="content">
 
-        <div class="content">
+			<div class="container-fluid">
+			
+				<div class="row">
+					<div class="col-md-12">
+						{% for mesa in mesas_ativas %}
+						<div class="card">
+							
+							<div class="header">
+								<h4 class="title">Mesa {{mesa}}</h4>
+							</div> 
+							<div class="content table-responsive table-full-width">
+								<table class="table table-striped">
+									<thead>
+										<th>Comanda</th>
+										<th>Pedido</th>
+										<th>Quantidade</th>
+										<th>Valor</th>
+									</thead>
+											<tbody>
+												{% for linha in dados: %}
+												{% if linha[nomes["mesa"]] == mesa%}
+												<tr>
+													<td>{{ linha[nomes["comanda"]] }}</td>
+													<td>{{ linha[nomes["comanda"]] }}</td>
+													<td>{{ linha[nomes["comanda"]] }}</td>
+													<td>{{ linha[nomes["comanda"]] }}</td>
+												</tr>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+								</table>
 
-            <div class="container-fluid">
-            
-                <div class="row">
-                    <div class="col-md-12">
-                        {% for mesa in CSV["MESA"].unique() %}
-                        <div class="card">
-                            
-                            <div class="header">
-                                <h4 class="title">Mesa {{ mesa }}</h4>
-                            </div> 
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <th>Comanda</th>
-                                        <th>Pedido</th>
-                                        <th>Quantidade</th>
-                                        <th>Preço</th>
-                                    </thead>
-                                    {% for index, row in CSV.iterrows() %}
-                                        {% if row["MESA"] == mesa %}
-                                            <tbody>
-                                                <tr>
-                                                    <td>{{ row["COMANDA"] }}</td>
-                                                    <td>{{ row["PEDIDO"] }}</td>
-                                                    <td>{{ row["QUANTIDADE"] }}</td>
-                                                    <td>{{ row["VALOR"] }}</td>
-                                                </tr>
-                                            </tbody>
-                                        {% endif %}
-                                    {% endfor %}
-                                </table>
-
-                            </div>
-                        </div>
-                    {% endfor %}
-                    </div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
 
 <!--
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
+		<footer class="footer">
+			<div class="container-fluid">
+				<nav class="pull-left">
+					<ul>
 
-                        <li>
-                            <a href="http://www.creative-tim.com">
-                                Creative Tim
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://blog.creative-tim.com">
-                               Blog
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://www.creative-tim.com/license">
-                                Licenses
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+						<li>
+							<a href="http://www.creative-tim.com">
+								Creative Tim
+							</a>
+						</li>
+						<li>
+							<a href="http://blog.creative-tim.com">
+							   Blog
+							</a>
+						</li>
+						<li>
+							<a href="http://www.creative-tim.com/license">
+								Licenses
+							</a>
+						</li>
+					</ul>
+				</nav>
 				<div class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
-                </div>
-            </div>
-        </footer>
+					&copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
+				</div>
+			</div>
+		</footer>
 -->
 
 {% endblock %}
