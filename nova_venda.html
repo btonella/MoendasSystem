@@ -5,22 +5,55 @@
 		<div class="container-fluid">
 			<div class="row">
 
-				<form method="post" action="/vendanova">
-					<div class="form-group">
-						<label for="Mesa">Mesa</label>
-						<input type="text" class="form-control" id="mesa">
-					</div>
+				<form method="post" action="/salvar_venda_nova">
+					<div class="form-row">
+						<label>Mesa</label>
+						<div class="col-auto my-1" data-validate = "required">
+							<label class="mr-sm-2 sr-only" for="mesas">Preference</label>
+							<select class="custom-select mr-sm-2" id="mesas">
+								<option selected>Choose...</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+							</select>
+						</div><br>
 
 					<div class="form-group">
-						<label for="Comanda">Comanda</label>
-						<input type="text" class="form-control" id="comanda">
+						<label for="Comanda">Comanda nova</label>
+						<input type="text" class="form-control" id="comandaNova">
 					</div>
 
 					<div class="form-row">
-						<label>Pedido</label>
+						<label>Comanda aberta</label>
 						<div class="col-auto my-1">
-							<label class="mr-sm-2 sr-only" for="escolha">Preference</label>
-							<select class="custom-select mr-sm-2" id="escolha">
+							<label class="mr-sm-2 sr-only" for="comandaAberta">Preference</label>
+							<select class="custom-select mr-sm-2" id="comandaAberta">
+								<option selected>Choose...</option>
+								{% for comanda in comandas_abertas %}
+									<option value="1">{{comanda}}</option>
+								{% endfor %}
+							</select>
+						</div><br>
+
+					<div class="form-row">
+						<label>Pedido</label>
+						<div class="col-auto my-1" data-validate = "required">
+							<label class="mr-sm-2 sr-only" for="escolhaPedido">Preference</label>
+							<select class="custom-select mr-sm-2" id="escolhaPedido">
 								<option selected>Choose...</option>
 								<option value="Bebida">Bebida</option>
 								<option value="Comida">Comida</option>
@@ -63,9 +96,9 @@
 
 					</div><br>
 
-					<div class="form-group">
+					<div class="form-group" data-validate = "required">
 						<label for="Comanda">Quantidade</label>
-						<input type="text" class="form-control" id="comanda">
+						<input type="text" class="form-control" id="quantidade">
 					</div>
 					<div class="form-group">
 						<label for="Comanda">Valor</label>
@@ -79,7 +112,7 @@
 
 	<script type="text/javascript">
 		window.onload = function() {
-			var eSelect = document.getElementById('escolha');
+			var eSelect = document.getElementById('escolhaPedido');
 			var optOtherReason1 = document.getElementById('bebidas');
 			var optOtherReason2 = document.getElementById('comidas');
 			var optOtherReason3 = document.getElementById('cachacas');
@@ -103,24 +136,5 @@
 		}
 	</script>
 
-	<!--
-	<footer class="footer">
-		<div class="container-fluid">
-			<nav class="pull-left">
-				<ul>
-
-					<li>
-						<a href="#">
-							Home
-						</a>
-					</li>
-				</ul>
-			</nav>
-			<div class="copyright pull-right">
-				&copy; <script>document.write(new Date().getFullYear())</script>, made with <i class="fa fa-heart heart"></i> by <a href="http://www.creative-tim.com">Creative Tim</a>
-			</div>
-		</div>
-	</footer>
-	-->
 
 {% endblock %}

@@ -84,13 +84,67 @@ def save():
 
 @app.route("/nova_venda.html")
 def novaVenda():
+	#IMPORT DOS CARDAPIOS
 	cardapioComidas = pd.read_csv("dataBase/cardapioComidas.csv")
 	cardapioComidas.PREÇO = cardapioComidas.PREÇO.astype(float)
 	cardapioCachacas = pd.read_csv("dataBase/cardapioCachacas.csv")
 	cardapioCachacas.PREÇO = cardapioCachacas.PREÇO.astype(float)
 	cardapioBebidas = pd.read_csv("dataBase/cardapioBebidas.csv")
 	cardapioBebidas.PREÇO = cardapioBebidas.PREÇO.astype(float)
-	return render_template("nova_venda.html", titulo="Nova Venda", titulo_pagina="Nova Venda", comidas=cardapioComidas, bebidas=cardapioBebidas, cachacas=cardapioCachacas)
+	
+	#IMPORT DAS COMANDAS ABERTAS
+	cursor.execute(""" SELECT * FROM pedidos """)
+	linhas = cursor.fetchall()
+	cursor.close()
+	nomes = {"id": 0,
+		"mesa": 1,
+		"comanda": 2,
+		"pedido": 3,
+		"quantidade": 4,
+		"valor": 5}
+
+	comandas_ativas = []
+	for linha in linhas:
+		comandas_ativas.append(linha[nome["comanda"]])
+	comandas_ativas = sorted(set(comandas_ativas))
+
+	return render_template("nova_venda.html", titulo="Nova Venda", titulo_pagina="Nova Venda", comidas=cardapioComidas, bebidas=cardapioBebidas, cachacas=cardapioCachacas, comandas_ativas=comandas_ativas)
+
+
+@app.route("/salvar_venda_nova", methods=["POST",])
+def salvar_venda_nova():
+	mesaEscolhida = request.form["mesas"]
+	
+	if request.form["comandaNova"] == None and request.form["comandaAberta"] == None:
+		flash("Erro, falta de informações")
+		return redirect ("/nova_venda.html")
+
+	elif request.form["comandaNova"] == None:
+		comandaEscolhida = request.form["comandaAberta"]
+	else:
+		comandaEscolhida = request.form["comandaNova"]
+
+	if request.form["bebidas"] == None and request.form["comidas"] == None and request.form["cachacas"] == None:
+		flash("Erro, falta de informações")
+		return redirect ("/nova_venda.html")
+
+	elif request.form["bebidas"] == None and request.form["comidas"] == None:
+		pedidoEscolhido = request.form["cachacas"]
+
+	elif request.form["bebidas"] == None and request.form["cachacas"] == None:
+		pedidoEscolhido = request.form["comidas"]
+
+	elif request.form["comidas"] == None and request.form["comidas"] == None:
+		pedidoEscolhido = request.form["bebidas"]
+
+	quantidadeEscolhida = request.form["quantidade"]
+
+	cursor.execute("""
+		INSERT INTO pedidos (mesa, comanda, pedido, quantidade, valor)
+		VALUES (mesaEscolhida, comandaEscolhida, pedidoEscolhido, quantidadeEscolhida, 0)
+		""")
+	return redirect("/pedidos.html")
+
 
 #Faz todos os htmls funcionarem
 @app.route('/<path:path>')
