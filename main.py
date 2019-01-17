@@ -124,20 +124,41 @@ def salvar_venda_nova():
 	else:
 		comandaEscolhida = request.form["comandaNova"]
 
+	tipoPedido = ""
 	if request.form["bebidas"] == None and request.form["comidas"] == None and request.form["cachacas"] == None:
 		flash("Erro, falta de informações")
 		return redirect ("/nova_venda.html")
 
 	elif request.form["bebidas"] == None and request.form["comidas"] == None:
 		pedidoEscolhido = request.form["cachacas"]
+		tipoPedido = "cachacas"
 
 	elif request.form["bebidas"] == None and request.form["cachacas"] == None:
 		pedidoEscolhido = request.form["comidas"]
+		tipoPedido = "comidas"
 
 	elif request.form["comidas"] == None and request.form["comidas"] == None:
 		pedidoEscolhido = request.form["bebidas"]
+		tipoPedido = "bebidas"
 
 	quantidadeEscolhida = request.form["quantidade"]
+
+	#Fazendo a conta do valor total do pedido
+	#IMPORT DOS CARDAPIOS
+	if tipoPedido == "cachacas":
+		cardapio = pd.read_csv("dataBase/cardapioCachacas.csv")
+	
+	elif tipoPedido == "comidas":
+		cardapio = pd.read_csv("dataBase/cardapioComidas.csv")
+
+	elif tipoPedido == "bebidas":
+		cardapio = pd.read_csv("dataBase/cardapioBebidas.csv")
+
+	cardapio.PREÇO = cardapio.PREÇO.astype(float)
+
+	for linha, coluna in cardapio:
+		pass
+
 
 	cursor.execute("""
 		INSERT INTO pedidos (mesa, comanda, pedido, quantidade, valor)
