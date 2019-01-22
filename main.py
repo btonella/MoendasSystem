@@ -157,12 +157,16 @@ def salvar_venda_nova():
 	cardapio.PREÇO = cardapio.PREÇO.astype(float)
 
 	for linha, coluna in cardapio:
-		pass
+		if coluna == "PEDIDO":
+			if linha == pedidoEscolhido:
+				preco = cardapio[linha,-1]
+
+	valorTotal = preco*quantidadeEscolhida
 
 
 	cursor.execute("""
 		INSERT INTO pedidos (mesa, comanda, pedido, quantidade, valor)
-		VALUES (mesaEscolhida, comandaEscolhida, pedidoEscolhido, quantidadeEscolhida, 0)
+		VALUES (mesaEscolhida, comandaEscolhida, pedidoEscolhido, quantidadeEscolhida, valorTotal)
 		""")
 	return redirect("/pedidos.html")
 
