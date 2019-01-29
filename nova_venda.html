@@ -67,7 +67,7 @@
 							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="bebidas">
 								<option selected>Choose...</option>
 								{% for item in bebidas["PEDIDO"] %}
-									<option value="1">{{item}}</option>
+									<option value="{{item}}">{{item}}</option>
 								{% endfor %}
 							</select>
 						</div>
@@ -78,7 +78,7 @@
 							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="comidas">
 								<option selected>Choose...</option>
 								{% for item in comidas["PEDIDO"] %}
-									<option value={item}>{{item}}</option>
+									<option value="{{item}}">{{item}}</option>
 								{% endfor %}
 							</select>
 						</div>				
@@ -89,7 +89,7 @@
 							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="cachacas">
 								<option selected>Choose...</option>
 								{% for item in cachacas["PEDIDO"] %}
-									<option value={item}>{{item}}</option>
+									<option value="{{item}}">{{item}}</option>
 								{% endfor %}
 							</select>
 						</div>

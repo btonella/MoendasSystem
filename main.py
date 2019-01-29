@@ -54,7 +54,7 @@ def pedidos():
 
 	mesas_ativas = []
 	for linha in linhas:
-		mesas_ativas.append(linha[nome["mesa"]])
+		mesas_ativas.append(linha[nomes["mesa"]])
 	mesas_ativas = sorted(set(mesas_ativas))
 	#pedidosCSV = pd.read_csv("dataBase/pedidos.csv")
 	#pedidosCSV.VALOR = pedidosCSV.VALOR.astype(float)
@@ -63,12 +63,15 @@ def pedidos():
 @app.route('/mesas.html')
 def mesas():
 
-	#mesasCSV = pd.read_csv("dataBase/mesas.csv")
-	#mesasCSV.TOTAL = mesasCSV.TOTAL.astype(float)
-	#pedidosCSV = pd.read_csv("dataBase/pedidos.csv")
-	#pedidosCSV.VALOR = pedidosCSV.VALOR.astype(float)
-	#pedidosCSV.MESA = pedidosCSV.MESA.astype(int)
-	#pedidosCSV = pedidosCSV.groupby("MESA").VALOR.sum().reset_index()
+	cursor.execute(""" SELECT * FROM mesas """)
+	linhas = cursor.fetchall()
+	
+	# mesasCSV = pd.read_csv("dataBase/mesas.csv")
+	# mesasCSV.TOTAL = mesasCSV.TOTAL.astype(float)
+	# pedidosCSV = pd.read_csv("dataBase/pedidos.csv")
+	# pedidosCSV.VALOR = pedidosCSV.VALOR.astype(float)
+	# pedidosCSV.MESA = pedidosCSV.MESA.astype(int)
+	# pedidosCSV = pedidosCSV.groupby("MESA").VALOR.sum().reset_index()
 	return render_template('mesas.html', dados=linhas, database=database, titulo="Mesas", titulo_pagina="Mesas")
 
 
@@ -105,7 +108,7 @@ def novaVenda():
 
 	comandas_ativas = []
 	for linha in linhas:
-		comandas_ativas.append(linha[nome["comanda"]])
+		comandas_ativas.append(linha[nomes["comanda"]])
 	comandas_ativas = sorted(set(comandas_ativas))
 
 	return render_template("nova_venda.html", titulo="Nova Venda", titulo_pagina="Nova Venda", comidas=cardapioComidas, bebidas=cardapioBebidas, cachacas=cardapioCachacas, comandas_ativas=comandas_ativas)
@@ -119,7 +122,7 @@ def salvar_venda_nova():
 
 	else:
 		mesaEscolhida = request.form.get("mesas")
-
+		mesaEscolhida = int(mesaEscolhida)
 	
 	if request.form.get("comandaNova") == "" and request.form.get("comandaAberta") == "Choose...":
 		flash("Erro, falta de informações")
@@ -138,19 +141,22 @@ def salvar_venda_nova():
 		return redirect ("/nova_venda.html")
 
 	elif request.form.get("bebidas") == "Choose..." and request.form.get("comidas") == "Choose...":
-		pedidoEscolhido = request.form.get("cachacas")
+		pedidoEscolhido = request.values.get("cachacas")
 		tipoPedido = "cachacas"
 		print("TIPO PEDIDO", tipoPedido)
+		print("PEDIDO", pedidoEscolhido)
 
 	elif request.form.get("bebidas") == "Choose..." and request.form.get("cachacas") == "Choose...":
-		pedidoEscolhido = request.form.get("comidas")
+		pedidoEscolhido = request.values.get("comidas")
 		tipoPedido = "comidas"
 		print("TIPO PEDIDO", tipoPedido)
+		print("PEDIDO", pedidoEscolhido)
 
 	elif request.form.get("comidas") == "Choose..." and request.form.get("comidas") == "Choose...":
-		pedidoEscolhido = request.form.get("bebidas")
+		pedidoEscolhido = request.values.get("bebidas")
 		tipoPedido = "bebidas"
 		print("TIPO PEDIDO", tipoPedido)
+		print("PEDIDO", pedidoEscolhido)
 
 	else:
 		print("pedido fail")
@@ -159,6 +165,7 @@ def salvar_venda_nova():
 		return redirect ("/nova_venda.html")
 
 	quantidadeEscolhida = request.form.get("quantidade")
+	quantidadeEscolhida = float(quantidadeEscolhida)
 
 	#Fazendo a conta do valor total do pedido
 	#IMPORT DOS CARDAPIOS
@@ -184,11 +191,10 @@ def salvar_venda_nova():
 
 	valorTotal = preco*quantidadeEscolhida
 
+	#{str(mesaEscolhida)}, {str(comandaEscolhida)}, {str(pedidoEscolhido)}, {str(quantidadeEscolhida)}, {str(valorTotal)}
 
-	cursor.execute("""
-		INSERT INTO pedidos (mesa, comanda, pedido, quantidade, valor)
-		VALUES (mesaEscolhida, comandaEscolhida, pedidoEscolhido, quantidadeEscolhida, valorTotal)
-		""")
+	cursor.execute(f'''
+		INSERT INTO pedidos (mesa, comanda, pedido, quantidade, valor) VALUES (1,1,1,1,1); ''')
 	return redirect("/pedidos.html")
 
 
