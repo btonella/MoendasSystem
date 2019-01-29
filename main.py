@@ -10,7 +10,7 @@ nomeUsuario = ""
 
 
 #Banco de dados
-conn = sqlite3.connect("dataBase/database.db")
+conn = sqlite3.connect("dataBase/database.db", check_same_thread=False)
 cursor = conn.cursor()
 
 @app.route('/')
@@ -44,7 +44,7 @@ def pedidos():
 
 	cursor.execute(""" SELECT * FROM pedidos """)
 	linhas = cursor.fetchall()
-	cursor.close()
+	#cursor.close()
 	nomes = {"id": 0,
 		"mesa": 1,
 		"comanda": 2,
@@ -95,7 +95,7 @@ def novaVenda():
 	#IMPORT DAS COMANDAS ABERTAS
 	cursor.execute(""" SELECT * FROM pedidos """)
 	linhas = cursor.fetchall()
-	cursor.close()
+	#cursor.close()
 	nomes = {"id": 0,
 		"mesa": 1,
 		"comanda": 2,
@@ -113,53 +113,74 @@ def novaVenda():
 
 @app.route("/salvar_venda_nova", methods=["POST",])
 def salvar_venda_nova():
-	mesaEscolhida = request.form["mesas"]
+	if request.form.get("mesas") == "Choose...":
+		flash("Erro, falta de informações")
+		return redirect("/nova_venda.html")
+
+	else:
+		mesaEscolhida = request.form.get("mesas")
+
 	
-	if request.form["comandaNova"] == None and request.form["comandaAberta"] == None:
+	if request.form.get("comandaNova") == "" and request.form.get("comandaAberta") == "Choose...":
 		flash("Erro, falta de informações")
 		return redirect ("/nova_venda.html")
 
-	elif request.form["comandaNova"] == None:
-		comandaEscolhida = request.form["comandaAberta"]
+	elif request.form.get("comandaNova") == "":
+		comandaEscolhida = request.form.get("comandaAberta")
+		
 	else:
-		comandaEscolhida = request.form["comandaNova"]
+		comandaEscolhida = request.form.get("comandaNova")
+		
 
 	tipoPedido = ""
-	if request.form["bebidas"] == None and request.form["comidas"] == None and request.form["cachacas"] == None:
+	if request.form.get("bebidas") == "Choose..." and request.form.get("comidas") == "Choose..." and request.form.get("cachacas") == "Choose...":
 		flash("Erro, falta de informações")
 		return redirect ("/nova_venda.html")
 
-	elif request.form["bebidas"] == None and request.form["comidas"] == None:
-		pedidoEscolhido = request.form["cachacas"]
+	elif request.form.get("bebidas") == "Choose..." and request.form.get("comidas") == "Choose...":
+		pedidoEscolhido = request.form.get("cachacas")
 		tipoPedido = "cachacas"
+		print("TIPO PEDIDO", tipoPedido)
 
-	elif request.form["bebidas"] == None and request.form["cachacas"] == None:
-		pedidoEscolhido = request.form["comidas"]
+	elif request.form.get("bebidas") == "Choose..." and request.form.get("cachacas") == "Choose...":
+		pedidoEscolhido = request.form.get("comidas")
 		tipoPedido = "comidas"
+		print("TIPO PEDIDO", tipoPedido)
 
-	elif request.form["comidas"] == None and request.form["comidas"] == None:
-		pedidoEscolhido = request.form["bebidas"]
+	elif request.form.get("comidas") == "Choose..." and request.form.get("comidas") == "Choose...":
+		pedidoEscolhido = request.form.get("bebidas")
 		tipoPedido = "bebidas"
+		print("TIPO PEDIDO", tipoPedido)
 
-	quantidadeEscolhida = request.form["quantidade"]
+	else:
+		print("pedido fail")
+		print("TIPO PEDIDO", tipoPedido)
+		flash("Erro, falta de informações")
+		return redirect ("/nova_venda.html")
+
+	quantidadeEscolhida = request.form.get("quantidade")
 
 	#Fazendo a conta do valor total do pedido
 	#IMPORT DOS CARDAPIOS
+	cardapio = None
+
 	if tipoPedido == "cachacas":
-		cardapio = pd.read_csv("dataBase/cardapioCachacas.csv")
+		cardapio = pd.read_csv("dataBase/cardapioCachacas.csv", index_col=["PEDIDO"])
 	
 	elif tipoPedido == "comidas":
-		cardapio = pd.read_csv("dataBase/cardapioComidas.csv")
+		cardapio = pd.read_csv("dataBase/cardapioComidas.csv", index_col=["PEDIDO"])
 
 	elif tipoPedido == "bebidas":
-		cardapio = pd.read_csv("dataBase/cardapioBebidas.csv")
+		cardapio = pd.read_csv("dataBase/cardapioBebidas.csv", index_col=["PEDIDO"])
 
 	cardapio.PREÇO = cardapio.PREÇO.astype(float)
 
-	for linha, coluna in cardapio:
-		if coluna == "PEDIDO":
-			if linha == pedidoEscolhido:
-				preco = cardapio[linha,-1]
+	preco = cardapio["PREÇO"][pedidoEscolhido]
+
+	# for linha, coluna in cardapio.items():
+	# 	if coluna == "PEDIDO":
+	# 		if linha == pedidoEscolhido:
+	# 			preco = cardapio[linha,-1]
 
 	valorTotal = preco*quantidadeEscolhida
 

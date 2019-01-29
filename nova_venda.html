@@ -9,8 +9,8 @@
 					<div class="form-row">
 						<label>Mesa</label>
 						<div class="col-auto my-1" data-validate = "required">
-							<label class="mr-sm-2 sr-only" for="mesas">Preference</label>
-							<select class="custom-select mr-sm-2" id="mesas">
+							<label class="mr-sm-2 sr-only">Preference</label>
+							<select class="custom-select mr-sm-2" name="mesas">
 								<option selected>Choose...</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -34,14 +34,14 @@
 
 					<div class="form-group">
 						<label for="Comanda">Comanda nova</label>
-						<input type="text" class="form-control" id="comandaNova">
+						<input type="text" class="form-control" name="comandaNova" id="comandaNova">
 					</div>
 
 					<div class="form-row">
 						<label>Comanda aberta</label>
 						<div class="col-auto my-1">
 							<label class="mr-sm-2 sr-only" for="comandaAberta">Preference</label>
-							<select class="custom-select mr-sm-2" id="comandaAberta">
+							<select class="custom-select mr-sm-2" name ="comandaAberta" id="comandaAberta">
 								<option selected>Choose...</option>
 								{% for comanda in comandas_abertas %}
 									<option value="1">{{comanda}}</option>
@@ -53,7 +53,7 @@
 						<label>Pedido</label>
 						<div class="col-auto my-1" data-validate = "required">
 							<label class="mr-sm-2 sr-only" for="escolhaPedido">Preference</label>
-							<select class="custom-select mr-sm-2" id="escolhaPedido">
+							<select class="custom-select mr-sm-2" id="escolhaPedido" name="escolhaPedido">
 								<option selected>Choose...</option>
 								<option value="Bebida">Bebida</option>
 								<option value="Comida">Comida</option>
@@ -64,9 +64,9 @@
 						<div class="col-auto my-1" style="display: none;" id="bebidas">
 							<label>Bebidas</label>
 							<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="bebidas">
 								<option selected>Choose...</option>
-								{% for item in bebidas["BEBIDAS"] %}
+								{% for item in bebidas["PEDIDO"] %}
 									<option value="1">{{item}}</option>
 								{% endfor %}
 							</select>
@@ -75,10 +75,10 @@
 						<div class="col-auto my-1" style="display: none;" id="comidas">
 							<label for="Mesa">Comidas</label>
 							<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="comidas">
 								<option selected>Choose...</option>
-								{% for item in comidas["PRATOS"] %}
-									<option value="1">{{item}}</option>
+								{% for item in comidas["PEDIDO"] %}
+									<option value={item}>{{item}}</option>
 								{% endfor %}
 							</select>
 						</div>				
@@ -86,10 +86,10 @@
 						<div class="col-auto my-1" style="display: none;" id="cachacas">
 							<label for="Mesa">Cachaças</label>
 							<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
-							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="cachacas">
 								<option selected>Choose...</option>
-								{% for item in cachacas["CACHACA"] %}
-									<option value="1">{{item}}</option>
+								{% for item in cachacas["PEDIDO"] %}
+									<option value={item}>{{item}}</option>
 								{% endfor %}
 							</select>
 						</div>
@@ -98,7 +98,7 @@
 
 					<div class="form-group" data-validate = "required">
 						<label for="Comanda">Quantidade</label>
-						<input type="text" class="form-control" id="quantidade">
+						<input type="text" class="form-control" id="quantidade" name="quantidade">
 					</div>
 					<div class="form-group">
 						<label for="Comanda">Valor</label>
